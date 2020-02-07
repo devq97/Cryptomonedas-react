@@ -23,7 +23,7 @@ const Boton = styled.input`
   }
 `;
 
-const Formulario = () => {
+const Formulario = ({guardarMoneda, guardarCriptomoneda}) => {
 
   const [listaCripto, guardarCriptomonedas] = useState([]);
   const [error, guardarError] = useState(false);
@@ -58,6 +58,8 @@ const Formulario = () => {
     }
 
     guardarError(false);
+    guardarMoneda(moneda);
+    guardarCriptomoneda(criptomoneda);
   };
 
   return (
