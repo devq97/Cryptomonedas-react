@@ -1,8 +1,10 @@
 import React, {useEffect, useState} from "react";
 import styled from "@emotion/styled";
+
 import useMoneda from "../hooks/useMoneda";
 import useCriptomoneda from "../hooks/UseCriptomoneda";
 import axios from 'axios';
+import Error from "./Error";
 
 const Boton = styled.input`
   margin-top: 20px;
@@ -24,6 +26,7 @@ const Boton = styled.input`
 const Formulario = () => {
 
   const [listaCripto, guardarCriptomonedas] = useState([]);
+  const [error, guardarError] = useState(false);
 
   const MONEDAS = [
     { codigo: 'USD', nombre: 'Dolar de Estados Unidos'},
@@ -46,8 +49,22 @@ const Formulario = () => {
     consultarAPI();
   }, []);
 
+  const cotizarMoneda = e => {
+    e.preventDefault();
+
+    if (moneda === '' || criptomoneda === '') {
+      guardarError(true);
+      return;
+    }
+
+    guardarError(false);
+  };
+
   return (
-    <form>
+    <form
+      onSubmit={cotizarMoneda}
+    >
+      {error ? <Error mensaje={'Todos los campos son obligatorios'} /> : null}
       <SelectMonedas />
       <SelectCripto/>
       <Boton
